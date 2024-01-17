@@ -1,5 +1,3 @@
-import React from "react";
-
 const StarOutline = () => {
   return (
     <div className="w-24 text-orange-400">
