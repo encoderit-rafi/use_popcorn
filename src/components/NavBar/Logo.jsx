@@ -1,7 +1,8 @@
+import Popcorn from "../../assets/Icons/Popcorn";
 const Logo = () => {
   return (
     <div className="logo">
-      <img src="/popcorn.svg" alt="" height={35} />
+      <Popcorn />
       <h1>usePopcorn</h1>
     </div>
   );

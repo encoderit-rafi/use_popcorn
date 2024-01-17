@@ -1,5 +1,5 @@
 import { useState } from "react";
-const ListBox = ({ children }) => {
+const Box = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -12,4 +12,4 @@ const ListBox = ({ children }) => {
   );
 };
 
-export default ListBox;
+export default Box;
