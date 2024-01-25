@@ -1,6 +1,16 @@
-const StarOutline = () => {
+const StarOutline = ({
+  className = "",
+  handelOnClickSetRating = () => {},
+  handelOnMouseEnterSetTempRating = () => {},
+  handelOnMouseLeaveSetTempRating = () => {},
+}) => {
   return (
-    <div className="w-24 text-orange-400">
+    <div
+      className={`w-24 text-orange-400 ${className}`}
+      onClick={handelOnClickSetRating}
+      onMouseEnter={handelOnMouseEnterSetTempRating}
+      onMouseLeave={handelOnMouseLeaveSetTempRating}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
@@ -10,8 +20,8 @@ const StarOutline = () => {
         <path
           fill="none"
           stroke="currentColor"
-          stroke-linejoin="round"
-          stroke-width="32"
+          strokeLinejoin="round"
+          strokeWidth="32"
           d="M480 208H308L256 48l-52 160H32l140 96l-54 160l138-100l138 100l-54-160Z"
         />
       </svg>

@@ -74,7 +74,7 @@ export default function App() {
           </>
         </Box>
       </Main> */}
-      <StarRating maxRating={10} />
+      <StarRating maxRating={5} />
     </>
   );
 }

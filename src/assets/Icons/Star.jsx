@@ -1,6 +1,16 @@
-const Star = () => {
+const Star = ({
+  className = "",
+  handelOnClickSetRating = () => {},
+  handelOnMouseEnterSetTempRating = () => {},
+  handelOnMouseLeaveSetTempRating = () => {},
+}) => {
   return (
-    <div className="w-24 text-orange-400">
+    <div
+      className={`w-24 text-orange-400 ${className}`}
+      onClick={handelOnClickSetRating}
+      onMouseEnter={handelOnMouseEnterSetTempRating}
+      onMouseLeave={handelOnMouseLeaveSetTempRating}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
