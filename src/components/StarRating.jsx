@@ -1,11 +1,19 @@
 import { useState } from "react";
 import Star from "../assets/Icons/Star.jsx";
 import StarOutline from "../assets/Icons/StarOutline.jsx";
-const StarRating = ({ maxRating = 5 }) => {
-  const [rating, setRating] = useState(0);
+const StarRating = ({
+  maxRating = 5,
+  iconClass = "",
+  textClass = "",
+  defaultRating = 0,
+}) => {
+  const [rating, setRating] = useState(
+    defaultRating <= maxRating ? defaultRating : 0
+  );
   const [isHover, setIsHover] = useState(false);
   const [tempRating, setTempRating] = useState(0);
   let data = isHover ? tempRating : rating;
+
   const handelOnClickSetRating = (value) => {
     setRating((v) => (v === value ? --value : value));
   };
@@ -21,7 +29,7 @@ const StarRating = ({ maxRating = 5 }) => {
           {Array.from({ length: maxRating }, (_, i) =>
             data > i ? (
               <Star
-                className="cursor-pointer"
+                className={iconClass}
                 key={i}
                 handelOnClickSetRating={() => handelOnClickSetRating(i + 1)}
                 handelOnMouseEnterSetTempRating={() => setTempRating(i + 1)}
@@ -29,7 +37,7 @@ const StarRating = ({ maxRating = 5 }) => {
               />
             ) : (
               <StarOutline
-                className="cursor-pointer"
+                className={iconClass}
                 key={i}
                 handelOnClickSetRating={() => handelOnClickSetRating(i + 1)}
                 handelOnMouseEnterSetTempRating={() => setTempRating(i + 1)}
@@ -38,7 +46,9 @@ const StarRating = ({ maxRating = 5 }) => {
             )
           )}
         </div>
-        <span className="text-5xl font-medium text-white">{data || ""}</span>
+        <span className={`text-5xl font-medium text-white ${textClass}`}>
+          {data || ""}
+        </span>
       </div>
     </>
   );

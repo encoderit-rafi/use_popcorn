@@ -74,7 +74,12 @@ export default function App() {
           </>
         </Box>
       </Main> */}
-      <StarRating maxRating={5} />
+      <StarRating
+        defaultRating={5}
+        maxRating={5}
+        iconClass="cursor-pointer text-red-500"
+        textClass="hidden"
+      />
     </>
   );
 }
