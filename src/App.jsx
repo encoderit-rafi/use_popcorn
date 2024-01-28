@@ -77,8 +77,9 @@ export default function App() {
       <StarRating
         defaultRating={5}
         maxRating={5}
-        iconClass="cursor-pointer text-red-500"
+        iconClass="cursor-pointer text-orange-500"
         textClass="hidden"
+        messages={["😒", "😐", "🙂", "😊", "😍"]}
       />
     </>
   );
