@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 const Star = ({
   className = "",
   handelOnClickSetRating = () => {},
@@ -25,5 +26,10 @@ const Star = ({
     </div>
   );
 };
-
+Star.propTypes = {
+  className: PropTypes.string,
+  handelOnClickSetRating: PropTypes.func,
+  handelOnMouseEnterSetTempRating: PropTypes.func,
+  handelOnMouseLeaveSetTempRating: PropTypes.func,
+};
 export default Star;

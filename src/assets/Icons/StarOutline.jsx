@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const StarOutline = ({
   className = "",
   handelOnClickSetRating = () => {},
@@ -28,5 +30,10 @@ const StarOutline = ({
     </div>
   );
 };
-
+StarOutline.propTypes = {
+  className: PropTypes.string,
+  handelOnClickSetRating: PropTypes.func,
+  handelOnMouseEnterSetTempRating: PropTypes.func,
+  handelOnMouseLeaveSetTempRating: PropTypes.func,
+};
 export default StarOutline;
