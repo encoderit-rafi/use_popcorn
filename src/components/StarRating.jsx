@@ -54,7 +54,7 @@ const StarRating = ({
             {data || ""}
           </span>
         </div>
-        <p className="text-4xl text-center mt-10">
+        <p className="mt-10 text-4xl text-center">
           {messages.length == maxRating ? messages[data - 1] : ""}
         </p>
       </div>
