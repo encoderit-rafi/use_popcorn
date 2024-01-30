@@ -9,6 +9,7 @@ const StarRating = ({
   textClass = "",
   defaultRating = 0,
   messages = [],
+  handelOnClickSetMovieRating,
 }) => {
   const [rating, setRating] = useState(
     defaultRating <= maxRating ? defaultRating : 0
@@ -19,6 +20,7 @@ const StarRating = ({
 
   const handelOnClickSetRating = (value) => {
     setRating((v) => (v === value ? --value : value));
+    handelOnClickSetMovieRating(value);
   };
 
   return (
@@ -67,5 +69,6 @@ StarRating.propTypes = {
   iconClass: PropTypes.string,
   textClass: PropTypes.string,
   messages: PropTypes.array,
+  handelOnClickSetMovieRating: PropTypes.func,
 };
 export default StarRating;

@@ -4,7 +4,7 @@ const Search = () => {
   const [query, setQuery] = useState("");
   return (
     <input
-      className="search"
+      className="w-full search "
       type="text"
       placeholder="Search movies..."
       value={query}
