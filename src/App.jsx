@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "./components/Box";
 import NavBar from "./components/NavBar/NavBar";
 import Results from "./components/NavBar/Results";
@@ -54,10 +54,24 @@ const tempWatchedData = [
     userRating: 9,
   },
 ];
+const KEY = "e7cf6685";
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
+  const [isLoading, setIsLoading] = useState(false);
+  async function fetchMovies() {
+    setIsLoading(true);
+    const res = await fetch(
+      `https://www.omdbapi.com/?apikey=${KEY}&s=spiderman`
+    );
+    const { Search: movies } = await res.json();
+    setMovies(movies);
+    setIsLoading(false);
+  }
+  useEffect(() => {
+    fetchMovies();
+  }, []);
   // const defaultRating = 5;
   // const [movieRating, setMovieRating] = useState(defaultRating);
   // const handelOnClickSetMovieRating = (v) => {
@@ -70,7 +84,11 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          <MovieList movies={movies} />
+          {isLoading ? (
+            <p className="loader"> Loading...</p>
+          ) : (
+            <MovieList movies={movies} />
+          )}
         </Box>
         <Box>
           <>
