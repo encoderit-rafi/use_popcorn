@@ -6,6 +6,8 @@ import Main from "./components/Main/Main";
 import MovieList from "./components/Main/MovieList";
 import WatchedMovieList from "./components/Main/WatchedMovieList";
 import WatchedMovieSummery from "./components/Main/WatchedMovieSummery";
+import ShowErrorMessage from "./components/ShowErrorMessage";
+import Movie from "./components/Main/Movie";
 // import TextExpander from "./components/TextExpander";
 // import StarRating from "./components/StarRating";
 
@@ -62,12 +64,18 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   async function fetchMovies() {
     setIsLoading(true);
-    const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${KEY}&s=spiderman`
-    );
-    const { Search: movies } = await res.json();
-    setMovies(movies);
-    setIsLoading(false);
+    try {
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=${KEY}&s=spiderman`
+      );
+      const { Search: movies } = await res.json();
+      console.log("🚀 ~ fetchMovies ~ movies:", movies);
+      setMovies(movies);
+    } catch (error) {
+      console.error("🚀 ~ fetchMovies ~ error:", error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
   useEffect(() => {
     fetchMovies();
@@ -79,25 +87,54 @@ export default function App() {
   // };
   return (
     <>
-      <NavBar>
-        <Results length={movies.length} />
-      </NavBar>
-      <Main>
-        <Box>
-          {isLoading ? (
-            <p className="loader"> Loading...</p>
-          ) : (
-            <MovieList movies={movies} />
-          )}
-        </Box>
-        <Box>
-          <>
-            <WatchedMovieSummery watched={watched} />
+      <div className="flex flex-col h-screen gap-5 p-5">
+        <NavBar>
+          <Results length={movies.length} />
+        </NavBar>
 
-            <WatchedMovieList watched={watched} />
-          </>
-        </Box>
-      </Main>
+        <Main>
+          {/* <ShowErrorMessage /> */}
+          <Box>
+            {isLoading ? (
+              <p className="loader"> Loading...</p>
+            ) : (
+              <>
+                {movies?.map((movie) => (
+                  <Movie key={movie.imdbID} movie={movie} />
+                ))}
+              </>
+            )}
+          </Box>
+          <Box>
+            <>
+              <WatchedMovieSummery watched={watched} />
+
+              <WatchedMovieList watched={watched} />
+            </>
+          </Box>
+        </Main>
+        {/* </div> */}
+        {/* <NavBar>
+          <Results length={movies.length} />
+        </NavBar> */}
+        {/* <Main>
+          <ShowErrorMessage />
+          <Box>
+            {isLoading ? (
+              <p className="loader"> Loading...</p>
+            ) : (
+              <MovieList movies={movies} />
+            )}
+          </Box>
+          <Box>
+            <>
+              <WatchedMovieSummery watched={watched} />
+
+              <WatchedMovieList watched={watched} />
+            </>
+          </Box>
+        </Main> */}
+      </div>
       {/* <p className="mb-10 text-4xl text-center">
         this movie has {movieRating} star rating
       </p>

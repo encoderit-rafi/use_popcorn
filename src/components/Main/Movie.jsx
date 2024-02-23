@@ -1,6 +1,6 @@
 const Movie = ({ movie: { Poster, Title, Year } }) => {
   return (
-    <li>
+    <li className="list">
       <img src={Poster} alt={`${Title} poster`} />
       <h3>{Title}</h3>
       <div>

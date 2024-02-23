@@ -2,7 +2,10 @@ import Movie from "./Movie";
 
 const MovieList = ({ movies }) => {
   return (
-    <ul className="list">
+    <ul className="overflow-y-auto">
+      {movies?.map((movie) => (
+        <Movie key={movie.imdbID} movie={movie} />
+      ))}
       {movies?.map((movie) => (
         <Movie key={movie.imdbID} movie={movie} />
       ))}
