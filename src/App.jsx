@@ -6,34 +6,14 @@ import Main from "./components/Main/Main";
 import MovieList from "./components/Main/MovieList";
 import WatchedMovieList from "./components/Main/WatchedMovieList";
 import WatchedMovieSummery from "./components/Main/WatchedMovieSummery";
-import ShowErrorMessage from "./components/ShowErrorMessage";
+import ShowErrorMessage from "./components/ShowMessage";
 import Movie from "./components/Main/Movie";
+import Search from "./components/NavBar/Search";
+import Logo from "./components/NavBar/Logo";
+import MovieDetails from "./components/Main/MovieDetails";
 // import TextExpander from "./components/TextExpander";
 // import StarRating from "./components/StarRating";
 
-const tempMovieData = [
-  {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-  },
-  {
-    imdbID: "tt0133093",
-    Title: "The Matrix",
-    Year: "1999",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-  },
-  {
-    imdbID: "tt6751668",
-    Title: "Parasite",
-    Year: "2019",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-  },
-];
 const tempWatchedData = [
   {
     imdbID: "tt1375666",
@@ -59,27 +39,34 @@ const tempWatchedData = [
 const KEY = "e7cf6685";
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
+  const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
+  const [query, setQuery] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
-  async function fetchMovies() {
-    setIsLoading(true);
-    try {
-      const res = await fetch(
-        `https://www.omdbapi.com/?apikey=${KEY}&s=spiderman`
-      );
-      const { Search: movies } = await res.json();
-      console.log("🚀 ~ fetchMovies ~ movies:", movies);
-      setMovies(movies);
-    } catch (error) {
-      console.error("🚀 ~ fetchMovies ~ error:", error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [selectedMovieID, setSelectedMovieID] = useState(null);
+
   useEffect(() => {
+    async function fetchMovies() {
+      setIsError(false);
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+        );
+        const { Search: movies } = await res.json();
+        setMovies(movies);
+      } catch (error) {
+        setIsError(true);
+        setMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
     fetchMovies();
-  }, []);
+  }, [query]);
   // const defaultRating = 5;
   // const [movieRating, setMovieRating] = useState(defaultRating);
   // const handelOnClickSetMovieRating = (v) => {
@@ -89,51 +76,51 @@ export default function App() {
     <>
       <div className="flex flex-col h-screen gap-5 p-5">
         <NavBar>
-          <Results length={movies.length} />
+          <Logo />
+          <Search query={query} setQuery={setQuery} />
+          <Results length={movies?.length} />
         </NavBar>
 
         <Main>
-          {/* <ShowErrorMessage /> */}
           <Box>
             {isLoading ? (
               <p className="loader"> Loading...</p>
             ) : (
               <>
                 {movies?.map((movie) => (
-                  <Movie key={movie.imdbID} movie={movie} />
+                  <Movie
+                    key={movie.imdbID}
+                    movie={movie}
+                    onClick={() => setSelectedMovieID(movie.imdbID)}
+                  />
                 ))}
               </>
             )}
           </Box>
-          <Box>
-            <>
-              <WatchedMovieSummery watched={watched} />
-
-              <WatchedMovieList watched={watched} />
-            </>
-          </Box>
-        </Main>
-        {/* </div> */}
-        {/* <NavBar>
-          <Results length={movies.length} />
-        </NavBar> */}
-        {/* <Main>
-          <ShowErrorMessage />
-          <Box>
-            {isLoading ? (
-              <p className="loader"> Loading...</p>
+          <Box
+            selectedMovieID={selectedMovieID}
+            setIsError={(e) => setIsError(e)}
+            setMessage={(error) => setIsError(error.message)}
+            onClick={() => setSelectedMovieID(null)}
+          >
+            {selectedMovieID ? (
+              // <p>{selectedMovieID}</p>
+              <MovieDetails selectedMovieID={selectedMovieID} />
             ) : (
-              <MovieList movies={movies} />
+              <>
+                <WatchedMovieSummery watched={watched} />
+
+                <WatchedMovieList watched={watched} />
+              </>
             )}
           </Box>
-          <Box>
-            <>
-              <WatchedMovieSummery watched={watched} />
-
-              <WatchedMovieList watched={watched} />
-            </>
-          </Box>
-        </Main> */}
+        </Main>
+        {isError && (
+          <ShowErrorMessage
+            message={message}
+            className="font-medium bg-red-600 rounded-md"
+          />
+        )}
       </div>
       {/* <p className="mb-10 text-4xl text-center">
         this movie has {movieRating} star rating

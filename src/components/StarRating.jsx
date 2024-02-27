@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 const StarRating = ({
   maxRating = 5,
+  className = "",
   iconClass = "",
   textClass = "",
   defaultRating = 0,
@@ -25,7 +26,7 @@ const StarRating = ({
 
   return (
     <>
-      <div className="">
+      <div className={className}>
         <div className="flex items-center justify-center space-x-8">
           <div
             className="flex items-center justify-center space-x-4 "
@@ -56,7 +57,8 @@ const StarRating = ({
             {data || ""}
           </span>
         </div>
-        <p className="mt-10 text-4xl text-center">
+        {}
+        <p className="text-4xl text-center">
           {messages.length == maxRating ? messages[data - 1] : ""}
         </p>
       </div>

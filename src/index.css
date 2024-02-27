@@ -19,9 +19,9 @@
   box-sizing: border-box;
 }
 
-html {
+/* html {
   font-size: 62.5%;
-}
+} */
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -65,14 +65,14 @@ body {
 .loader {
   text-align: center;
   text-transform: uppercase;
-  font-size: 2rem;
+  /* font-size: 2rem; */
   font-weight: 600;
   margin: 4.8rem;
 }
 
 .error {
   text-align: center;
-  font-size: 2rem;
+  /* font-size: 2rem; */
   padding: 4.8rem;
 }
 
@@ -84,12 +84,12 @@ body {
   gap: 0.8rem;
 }
 
-.logo span {
+/* .logo span {
   font-size: 3.2rem;
-}
+} */
 
 .logo h1 {
-  font-size: 2.4rem;
+  /* font-size: 2.4rem; */
   font-weight: 600;
   color: #fff;
 }
@@ -98,7 +98,7 @@ body {
   /* justify-self: center; */
   border: none;
   padding: 1.1rem 1.6rem;
-  font-size: 1.8rem;
+  /* font-size: 1.8rem; */
   border-radius: 0.7rem;
   /* width: 40rem; */
   transition: all 0.3s;
@@ -120,7 +120,7 @@ body {
 
 .num-results {
   justify-self: end;
-  font-size: 1.8rem;
+  /* font-size: 1.8rem; */
 }
 
 .btn-toggle {
@@ -133,7 +133,7 @@ body {
   border: none;
   background-color: var(--color-background-900);
   color: var(--color-text);
-  font-size: 1.4rem;
+  /* font-size: 1.4rem; */
   font-weight: bold;
   cursor: pointer;
   z-index: 999;
@@ -155,7 +155,7 @@ li {
   grid-template-columns: 4rem 1fr;
   grid-template-rows: auto auto;
   column-gap: 2.4rem;
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   align-items: center;
 
   padding: 1.6rem 3.2rem;
@@ -177,7 +177,7 @@ li {
 }
 
 .list h3 {
-  font-size: 1.8rem;
+  /* font-size: 1.8rem; */
 }
 
 .list div {
@@ -202,7 +202,7 @@ li {
   border: none;
   background-color: var(--color-red);
   color: var(--color-background-900);
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
@@ -223,7 +223,7 @@ li {
 
 .summary h2 {
   text-transform: uppercase;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   margin-bottom: 0.6rem;
 }
 
@@ -231,7 +231,7 @@ li {
   display: flex;
   align-items: center;
   gap: 2.4rem;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   font-weight: 600;
 }
 
@@ -245,7 +245,7 @@ li {
 
 .details {
   line-height: 1.4;
-  font-size: 1.4rem;
+  /* font-size: 1.4rem; */
 }
 
 .details header {
@@ -273,7 +273,7 @@ li {
 }
 
 .details-overview h2 {
-  font-size: 2.4rem;
+  /* font-size: 2.4rem; */
   margin-bottom: 0.4rem;
   line-height: 1.1;
 }
@@ -300,7 +300,7 @@ li {
   color: var(--color-text);
   border: none;
   border-radius: 10rem;
-  font-size: 1.4rem;
+  /* font-size: 1.4rem; */
   padding: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -334,7 +334,7 @@ li {
   color: var(--color-background-500);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
   font-family: sans-serif;
-  font-size: 2.4rem;
+  /* font-size: 2.4rem; */
   font-weight: bold;
   cursor: pointer;
   z-index: 999;
