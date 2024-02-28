@@ -1,5 +1,5 @@
 const WatchedMovie = ({
-  movie: { Poster, Title, imdbRating, userRating, runtime },
+  movie: { Poster, Title, imdbRating, userRating, Runtime },
 }) => {
   return (
     <li>
@@ -16,7 +16,7 @@ const WatchedMovie = ({
         </p>
         <p>
           <span>⏳</span>
-          <span>{runtime} min</span>
+          <span>{Runtime} min</span>
         </p>
       </div>
     </li>
