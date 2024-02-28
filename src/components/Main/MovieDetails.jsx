@@ -11,20 +11,20 @@ const MovieDetails = ({
   setWatched,
 }) => {
   const [movie, setMovie] = useState({});
-  const {
-    Actors: actors,
-    Director: director,
-    Genre: genre,
-    Plot: plot,
-    Poster: poster,
-    Released: released,
-    Runtime: runtime,
-    Title: title,
-    Year: year,
-    imdbID,
-    imdbRating,
-    userRating,
-  } = movie;
+  // const {
+  //   Actors: actors,
+  //   Director: director,
+  //   Genre: genre,
+  //   Plot: plot,
+  //   Poster: poster,
+  //   Released: released,
+  //   Runtime: runtime,
+  //   Title: title,
+  //   Year: year,
+  //   imdbID,
+  //   imdbRating,
+  //   userRating,
+  // } = movie;
   const [isLoading, setIsLoading] = useState(false);
   const [rating, setRating] = useState(0);
   // const [isError, setIsError] = useState(false);
@@ -65,19 +65,19 @@ const MovieDetails = ({
         <div className="flex flex-col h-full">
           <div className="flex w-full">
             <img
-              src={poster || movie.Poster}
-              alt={`poster of ${title || movie.Title}`}
+              src={movie.Poster}
+              alt={`poster of ${movie.Title}`}
               className="object-cover object-center w-1/3"
             />
             <div className="p-8">
-              <h2 className="text-4xl font-semibold ">{title}</h2>
+              <h2 className="text-4xl font-semibold ">{movie.Title}</h2>
               <div className="space-y-2 mt-7">
                 <p className="space-x-2 text-lg">
-                  <span>{released}</span>
+                  <span>{movie.Released}</span>
                   <span>&bull;</span>
-                  <span>{runtime}</span>
+                  <span>{movie.Runtime}</span>
                 </p>
-                <p className="text-lg">{genre}</p>
+                <p className="text-lg">{movie.Genre}</p>
                 <p className="flex items-center space-x-2">
                   <span>
                     <svg
@@ -100,14 +100,16 @@ const MovieDetails = ({
                       />
                     </svg>
                   </span>
-                  <span className="text-lg">{imdbRating} IMDb rating</span>
+                  <span className="text-lg">
+                    {movie.imdbRating} IMDb rating
+                  </span>
                 </p>
               </div>
             </div>
           </div>
           <div className="flex-1 p-10 space-y-5 text-xl">
-            {userRating ? (
-              <p>your rating is {userRating}</p>
+            {movie.userRating ? (
+              <p>your rating is {movie.userRating}</p>
             ) : (
               <div className="p-5 rounded-xl bg-custom_background_100">
                 <StarRating
@@ -121,24 +123,25 @@ const MovieDetails = ({
 
                 <button
                   className={`flex items-center justify-center w-full p-3 mt-5 space-x-2 text-base font-semibold text-white rounded-full bg-custom_primary hover:bg-custom_primary_light ${
-                    userRating == 0
+                    movie.userRating == 0
                       ? "bg-gray-300 hover:bg-gray-300 text-gray-500 cursor-not-allowed"
                       : ""
                   }`}
                   onClick={() => {
-                    if (userRating == 0) return;
+                    if (movie.userRating == 0) return;
                     setWatched({
-                      actors,
-                      director,
-                      genre,
-                      plot,
-                      poster,
-                      released,
-                      runtime: +runtime.split(" ").at(0),
-                      title,
-                      year,
-                      imdbID,
-                      imdbRating: +imdbRating,
+                      // Actors: movie.Actors,
+                      // Director: movie.Director,
+                      // Genre: movie.Genre,
+                      // Plot: movie.Plot,
+                      // Poster: movie.Poster,
+                      // Released: movie.Released,
+                      // Title: movie.Title,
+                      // Year: movie.Year,
+                      // imdbID: movie.imdbID,
+                      ...movie,
+                      Runtime: +movie.Runtime.split(" ").at(0),
+                      imdbRating: +movie.imdbRating,
                       userRating: +rating,
                     });
                     setSelectedMovieID();
@@ -163,10 +166,10 @@ const MovieDetails = ({
             )}
 
             <p>
-              <em>{plot || movie.Plot}</em>
+              <em>{movie.Plot}</em>
             </p>
-            <p>Starring - {actors || movie.Actors}</p>
-            <p>Directed by - {director || movie.Director}</p>
+            <p>Starring - {movie.Actors}</p>
+            <p>Directed by - {movie.Director}</p>
           </div>
         </div>
       )}
