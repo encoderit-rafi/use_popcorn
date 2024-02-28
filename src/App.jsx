@@ -14,33 +14,34 @@ import MovieDetails from "./components/Main/MovieDetails";
 // import TextExpander from "./components/TextExpander";
 // import StarRating from "./components/StarRating";
 
-const tempWatchedData = [
-  {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-    runtime: 148,
-    imdbRating: 8.8,
-    userRating: 10,
-  },
-  {
-    imdbID: "tt0088763",
-    Title: "Back to the Future",
-    Year: "1985",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    runtime: 116,
-    imdbRating: 8.5,
-    userRating: 9,
-  },
-];
+// const tempWatchedData = [
+//   {
+//     imdbID: "tt1375666",
+//     Title: "Inception",
+//     Year: "2010",
+//     Poster:
+//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+//     runtime: 148,
+//     imdbRating: 8.8,
+//     userRating: 10,
+//   },
+//   {
+//     imdbID: "tt0088763",
+//     Title: "Back to the Future",
+//     Year: "1985",
+//     Poster:
+//       "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+//     runtime: 116,
+//     imdbRating: 8.5,
+//     userRating: 9,
+//   },
+// ];
 const KEY = "e7cf6685";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState(tempWatchedData);
+  // const [watched, setWatched] = useState(tempWatchedData);
+  const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -67,11 +68,7 @@ export default function App() {
     }
     fetchMovies();
   }, [query]);
-  // const defaultRating = 5;
-  // const [movieRating, setMovieRating] = useState(defaultRating);
-  // const handelOnClickSetMovieRating = (v) => {
-  //   setMovieRating(v);
-  // };
+
   return (
     <>
       <div className="flex flex-col h-screen gap-5 p-5">
@@ -104,8 +101,12 @@ export default function App() {
             onClick={() => setSelectedMovieID(null)}
           >
             {selectedMovieID ? (
-              // <p>{selectedMovieID}</p>
-              <MovieDetails selectedMovieID={selectedMovieID} />
+              <MovieDetails
+                selectedMovieID={selectedMovieID}
+                setSelectedMovieID={() => setSelectedMovieID(null)}
+                watched={watched}
+                setWatched={(v) => setWatched((movies) => [v, ...movies])}
+              />
             ) : (
               <>
                 <WatchedMovieSummery watched={watched} />

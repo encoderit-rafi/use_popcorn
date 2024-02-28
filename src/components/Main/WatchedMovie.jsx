@@ -1,10 +1,10 @@
 const WatchedMovie = ({
-  movie: { Poster, Title, imdbRating, userRating, runtime },
+  movie: { poster, title, imdbRating, userRating, runtime },
 }) => {
   return (
     <li>
-      <img src={Poster} alt={`${Title} poster`} />
-      <h3>{Title}</h3>
+      <img src={poster} alt={`${title} poster`} />
+      <h3>{title}</h3>
       <div>
         <p>
           <span>⭐️</span>

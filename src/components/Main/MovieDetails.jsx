@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import StarRating from "../StarRating";
 const KEY = "e7cf6685";
 
-const MovieDetails = ({ selectedMovieID, setIsError, setMessage }) => {
+const MovieDetails = ({
+  selectedMovieID,
+  setSelectedMovieID,
+  setIsError,
+  setMessage,
+  watched,
+  setWatched,
+}) => {
   const [movie, setMovie] = useState({});
   const {
     Actors: actors,
@@ -13,16 +20,19 @@ const MovieDetails = ({ selectedMovieID, setIsError, setMessage }) => {
     Released: released,
     Runtime: runtime,
     Title: title,
-    Year,
+    Year: year,
+    imdbID,
     imdbRating,
+    userRating,
   } = movie;
   const [isLoading, setIsLoading] = useState(false);
+  const [rating, setRating] = useState(0);
   // const [isError, setIsError] = useState(false);
   // const [message, setMessage] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     async function fetchMovie() {
-      setIsLoading(true);
       // setIsError(false);
       try {
         const res = await fetch(
@@ -38,8 +48,15 @@ const MovieDetails = ({ selectedMovieID, setIsError, setMessage }) => {
         setIsLoading(false);
       }
     }
-    fetchMovie();
-  }, [selectedMovieID, setIsLoading, setIsError, setMessage]);
+    const isWatched = watched.find((movie) => movie.imdbID == selectedMovieID);
+    console.log("🚀 ~ useEffect ~ isWatched:", isWatched);
+    if (isWatched) {
+      setMovie(isWatched);
+      setIsLoading(false);
+    } else {
+      fetchMovie();
+    }
+  }, [selectedMovieID, setMovie, setIsLoading, setIsError, setMessage]);
   return (
     <div className="h-full text-5xl ">
       {isLoading ? (
@@ -48,8 +65,8 @@ const MovieDetails = ({ selectedMovieID, setIsError, setMessage }) => {
         <div className="flex flex-col h-full">
           <div className="flex w-full">
             <img
-              src={poster}
-              alt={`poster of ${title}`}
+              src={poster || movie.Poster}
+              alt={`poster of ${title || movie.Title}`}
               className="object-cover object-center w-1/3"
             />
             <div className="p-8">
@@ -88,18 +105,68 @@ const MovieDetails = ({ selectedMovieID, setIsError, setMessage }) => {
               </div>
             </div>
           </div>
-          <div className="flex-1 p-10 space-y-5 text-xl ">
-            <StarRating
-              maxRating={10}
-              className="items-center py-5 rounded-xl bg-custom_background_100"
-              iconClass="w-7"
-              textClass="!text-orange-400 text-xl"
-            />
+          <div className="flex-1 p-10 space-y-5 text-xl">
+            {userRating ? (
+              <p>your rating is {userRating}</p>
+            ) : (
+              <div className="p-5 rounded-xl bg-custom_background_100">
+                <StarRating
+                  maxRating={10}
+                  defaultRating={0}
+                  className=""
+                  iconClass="w-7"
+                  textClass="!text-orange-400 text-xl"
+                  handelOnClickSetMovieRating={(v) => setRating(v)}
+                />
+
+                <button
+                  className={`flex items-center justify-center w-full p-3 mt-5 space-x-2 text-base font-semibold text-white rounded-full bg-custom_primary hover:bg-custom_primary_light ${
+                    userRating == 0
+                      ? "bg-gray-300 hover:bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    if (userRating == 0) return;
+                    setWatched({
+                      actors,
+                      director,
+                      genre,
+                      plot,
+                      poster,
+                      released,
+                      runtime: +runtime.split(" ").at(0),
+                      title,
+                      year,
+                      imdbID,
+                      imdbRating: +imdbRating,
+                      userRating: +rating,
+                    });
+                    setSelectedMovieID();
+                  }}
+                >
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24px"
+                      height="24px"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1"
+                      />
+                    </svg>
+                  </span>
+                  <span>Add to watch list</span>
+                </button>
+              </div>
+            )}
+
             <p>
-              <em>{plot}</em>
+              <em>{plot || movie.Plot}</em>
             </p>
-            <p>Starring - {actors}</p>
-            <p>Directed by - {director}</p>
+            <p>Starring - {actors || movie.Actors}</p>
+            <p>Directed by - {director || movie.Director}</p>
           </div>
         </div>
       )}
