@@ -48,7 +48,13 @@ export default function App() {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState(null);
   const [selectedMovieID, setSelectedMovieID] = useState(null);
+  function handelRemoveMovie(id) {
+    console.log("handelRemoveMovie::remove::id::", id);
 
+    setWatched((movies) => {
+      return movies.filter((movie) => movie.imdbID != id);
+    });
+  }
   useEffect(() => {
     async function fetchMovies() {
       setIsError(false);
@@ -111,7 +117,12 @@ export default function App() {
               <>
                 <WatchedMovieSummery watched={watched} />
 
-                <WatchedMovieList watched={watched} />
+                <WatchedMovieList
+                  watched={watched}
+                  removeMovie={(v) => {
+                    handelRemoveMovie(v);
+                  }}
+                />
               </>
             )}
           </Box>

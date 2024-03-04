@@ -41,6 +41,7 @@ const MovieDetails = ({
         const movie = await res.json();
         console.log("🚀 ~ fetchMovie ~ movie:", movie);
         setMovie(movie);
+        document.title = `Movie | ${movie.Title}`;
       } catch (error) {
         // setIsError(true);
         // setMessage(error);
@@ -57,6 +58,13 @@ const MovieDetails = ({
       fetchMovie();
     }
   }, [selectedMovieID, setMovie, setIsLoading, setIsError, setMessage]);
+  useEffect(() => {
+    if (!movie.Title) return;
+    document.title = `Movie | ${movie.Title}`;
+    return function () {
+      document.title = `usePopcorn`;
+    };
+  }, [movie]);
   return (
     <div className="h-full text-5xl ">
       {isLoading ? (
