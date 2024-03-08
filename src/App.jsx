@@ -3,7 +3,6 @@ import Box from "./components/Box";
 import NavBar from "./components/NavBar/NavBar";
 import Results from "./components/NavBar/Results";
 import Main from "./components/Main/Main";
-import MovieList from "./components/Main/MovieList";
 import WatchedMovieList from "./components/Main/WatchedMovieList";
 import WatchedMovieSummery from "./components/Main/WatchedMovieSummery";
 import ShowErrorMessage from "./components/ShowMessage";
@@ -11,36 +10,11 @@ import Movie from "./components/Main/Movie";
 import Search from "./components/NavBar/Search";
 import Logo from "./components/NavBar/Logo";
 import MovieDetails from "./components/Main/MovieDetails";
-// import TextExpander from "./components/TextExpander";
-// import StarRating from "./components/StarRating";
 
-// const tempWatchedData = [
-//   {
-//     imdbID: "tt1375666",
-//     Title: "Inception",
-//     Year: "2010",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-//     runtime: 148,
-//     imdbRating: 8.8,
-//     userRating: 10,
-//   },
-//   {
-//     imdbID: "tt0088763",
-//     Title: "Back to the Future",
-//     Year: "1985",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-//     runtime: 116,
-//     imdbRating: 8.5,
-//     userRating: 9,
-//   },
-// ];
 const KEY = "e7cf6685";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState(tempWatchedData);
   const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -56,23 +30,31 @@ export default function App() {
     });
   }
   useEffect(() => {
+    const abortController = new AbortController();
     async function fetchMovies() {
       setIsError(false);
       setIsLoading(true);
       try {
         const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          { signal: abortController.signal }
         );
         const { Search: movies } = await res.json();
+        setSelectedMovieID(null);
         setMovies(movies);
       } catch (error) {
-        setIsError(true);
-        setMessage(error.message);
+        if (error.name !== "AbortError") {
+          setIsError(true);
+          setMessage(error.message);
+        }
       } finally {
         setIsLoading(false);
       }
     }
     fetchMovies();
+    return function () {
+      abortController.abort();
+    };
   }, [query]);
 
   return (
@@ -134,29 +116,6 @@ export default function App() {
           />
         )}
       </div>
-      {/* <p className="mb-10 text-4xl text-center">
-        this movie has {movieRating} star rating
-      </p>
-      <StarRating
-        defaultRating={defaultRating}
-        maxRating={5}
-        iconClass="cursor-pointer text-orange-500"
-        textClass="hidden"
-        messages={["😒", "😐", "🙂", "😊", "😍"]}
-        handelOnClickSetMovieRating={handelOnClickSetMovieRating}
-      /> */}
-      {/* <TextExpander
-        className="p-4 font-mono text-4xl border "
-        expandClassName="bg-neutral-300  text-neutral-900"
-        maxTextLength={50}
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-        voluptate omnis sapiente placeat commodi? Culpa deserunt nulla eius
-        dolores incidunt nam unde voluptas ducimus, cum optio recusandae, omnis
-        repellat sint ipsam iusto! Ipsam tempore doloribus quisquam repellendus
-        quos deserunt iure quis architecto non dicta modi, asperiores dolorum
-        fugiat minima in.
-      </TextExpander> */}
     </>
   );
 }

@@ -1,7 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Box = ({ children, className, selectedMovieID, onClick }) => {
   const [isOpen, setIsOpen] = useState(true);
-
+  useEffect(() => {
+    function callback(e) {
+      if (e.key === "Escape") {
+        onClick();
+        console.log("🚀 ~ callback ~ Escape:");
+      }
+    }
+    document.addEventListener("keydown", callback);
+    return function () {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onClick]);
   return (
     <ul
       className={`bg-[#2b3035] rounded-xl relative flex-1 p-5 overflow-auto ${className}`}

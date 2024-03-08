@@ -1,6 +1,3 @@
-import Logo from "./Logo";
-import Search from "./Search";
-
 const NavBar = ({ children, className }) => {
   return (
     <nav

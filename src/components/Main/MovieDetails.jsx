@@ -11,29 +11,13 @@ const MovieDetails = ({
   setWatched,
 }) => {
   const [movie, setMovie] = useState({});
-  // const {
-  //   Actors: actors,
-  //   Director: director,
-  //   Genre: genre,
-  //   Plot: plot,
-  //   Poster: poster,
-  //   Released: released,
-  //   Runtime: runtime,
-  //   Title: title,
-  //   Year: year,
-  //   imdbID,
-  //   imdbRating,
-  //   userRating,
-  // } = movie;
+
   const [isLoading, setIsLoading] = useState(false);
   const [rating, setRating] = useState(0);
-  // const [isError, setIsError] = useState(false);
-  // const [message, setMessage] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
     async function fetchMovie() {
-      // setIsError(false);
       try {
         const res = await fetch(
           `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedMovieID}`
@@ -43,8 +27,7 @@ const MovieDetails = ({
         setMovie(movie);
         document.title = `Movie | ${movie.Title}`;
       } catch (error) {
-        // setIsError(true);
-        // setMessage(error);
+        // console
       } finally {
         setIsLoading(false);
       }
@@ -57,7 +40,14 @@ const MovieDetails = ({
     } else {
       fetchMovie();
     }
-  }, [selectedMovieID, setMovie, setIsLoading, setIsError, setMessage]);
+  }, [
+    watched,
+    selectedMovieID,
+    setMovie,
+    setIsLoading,
+    setIsError,
+    setMessage,
+  ]);
   useEffect(() => {
     if (!movie.Title) return;
     document.title = `Movie | ${movie.Title}`;
@@ -138,15 +128,6 @@ const MovieDetails = ({
                   onClick={() => {
                     if (movie.userRating == 0) return;
                     setWatched({
-                      // Actors: movie.Actors,
-                      // Director: movie.Director,
-                      // Genre: movie.Genre,
-                      // Plot: movie.Plot,
-                      // Poster: movie.Poster,
-                      // Released: movie.Released,
-                      // Title: movie.Title,
-                      // Year: movie.Year,
-                      // imdbID: movie.imdbID,
                       ...movie,
                       Runtime: +movie.Runtime.split(" ").at(0),
                       imdbRating: +movie.imdbRating,
