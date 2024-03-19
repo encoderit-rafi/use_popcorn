@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Box from "./components/Box";
 import NavBar from "./components/NavBar/NavBar";
 import Results from "./components/NavBar/Results";
@@ -10,52 +10,22 @@ import Movie from "./components/Main/Movie";
 import Search from "./components/NavBar/Search";
 import Logo from "./components/NavBar/Logo";
 import MovieDetails from "./components/Main/MovieDetails";
-
-const KEY = "e7cf6685";
-
+import { useMovies } from "./components/hooks/useMovies";
+import { useLocalStorage } from "./components/hooks/useLocalStorage";
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [message, setMessage] = useState(null);
   const [selectedMovieID, setSelectedMovieID] = useState(null);
   function handelRemoveMovie(id) {
-    console.log("handelRemoveMovie::remove::id::", id);
-
     setWatched((movies) => {
       return movies.filter((movie) => movie.imdbID != id);
     });
   }
-  useEffect(() => {
-    const abortController = new AbortController();
-    async function fetchMovies() {
-      setIsError(false);
-      setIsLoading(true);
       try {
-        const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-          { signal: abortController.signal }
-        );
-        const { Search: movies } = await res.json();
-        setSelectedMovieID(null);
-        setMovies(movies);
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          setIsError(true);
-          setMessage(error.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
-    return function () {
-      abortController.abort();
-    };
-  }, [query]);
+  const { movies, isError, isLoading, message, setIsError } = useMovies(
+    query,
+    setSelectedMovieID
+  );
+  const [watched, setWatched] = useLocalStorage([], "watched");
 
   return (
     <>
