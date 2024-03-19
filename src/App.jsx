@@ -20,7 +20,6 @@ export default function App() {
       return movies.filter((movie) => movie.imdbID != id);
     });
   }
-      try {
   const { movies, isError, isLoading, message, setIsError } = useMovies(
     query,
     setSelectedMovieID
